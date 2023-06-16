@@ -6,7 +6,8 @@
 </div>
 <div class="row border-top pt-3">
   <div class="col">
-    <!-- Tablas de resultados -->
-    Tablas de resultados
+    <ul>
+      <li *ngFor="let country of countries;">{{ country.capital }}</li>
+    </ul>
   </div>
 </div>
