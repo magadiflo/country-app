@@ -1,0 +1,23 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
+import { Country } from '../interfaces/country.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CountriesService {
+
+  private readonly apiCountryUrl: string = environment.API_COUNTRY_URL;
+
+  constructor(private _http: HttpClient) { }
+
+  searchCapital(capital: string): Observable<Country[]> {
+    return this._http.get<Country[]>(`${this.apiCountryUrl}/capital/${capital}`);
+  }
+
+
+
+}
