@@ -1,0 +1,5 @@
+@use 'functions' as f;
+
+.flag {
+  width: f.rem(50px);
+}

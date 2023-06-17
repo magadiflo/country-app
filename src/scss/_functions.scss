@@ -1,0 +1,11 @@
+@use 'sass:math';
+
+@function rem($pixel) {
+  @if math.unit($pixel)=='px' {
+    @return math.div($pixel, 16px) * 1rem;
+  }
+
+  @else {
+    @error 'Debe ingresar un número en px, pero se ingresó #{$pixel}'
+  }
+}
