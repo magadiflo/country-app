@@ -1,1 +1,22 @@
-<p>country-page works!</p>
+<div class="alert alert-info" *ngIf="!country; else countryDetails">Espere por favor!</div>
+<ng-template #countryDetails>
+  <div class="card">
+    <img [src]="country?.flags?.svg" class="card-img-top" [alt]="country?.name?.common">
+    <div class="card-body">
+      <h5 class="card-title">{{country?.name?.common}}</h5>
+      <p class="card-text"><b>Población: </b>{{ country?.population | number }}</p>
+      <p class="card-text"><b>Código: </b>{{ country?.cca3 }}</p>
+      <div>
+        <span class="badge bg-primary">{{ country?.translations!['spa'].common }}</span>
+        <span class="badge bg-primary">{{ country?.translations!['rus'].common }}</span>
+        <span class="badge bg-primary">{{ country?.translations!['jpn'].common }}</span>
+        <span class="badge bg-primary">{{ country?.translations!['ita'].common }}</span>
+      </div>
+      <h5 class="card-title border-bottom my-3">Países fronterizos</h5>
+      <div class="alert alert-info" *ngIf="existBordersCountries; else table">Buscando...</div>
+      <ng-template #table>
+        <app-country-table [countries]="bordersCountries"></app-country-table>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
