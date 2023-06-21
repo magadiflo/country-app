@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { forkJoin, switchMap } from 'rxjs';
 
 import { CountriesService } from '../../services/countries.service';
 import { Country } from '../../interfaces/country.interface';
@@ -14,6 +14,11 @@ import { Country } from '../../interfaces/country.interface';
 export class CountryPageComponent implements OnInit {
 
   public country?: Country;
+  public bordersCountries: Country[] = [];
+
+  public get existBordersCountries(): boolean {
+    return (this.country?.borders || false) && this.bordersCountries.length === 0;
+  }
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -25,13 +30,22 @@ export class CountryPageComponent implements OnInit {
       .pipe(
         switchMap(({ id }) => this._countriesService.searchCountryByAlphaCode(id))
       )
-      .subscribe(country => {
-        if (!country) {
+      .subscribe({
+        next: country => {
+          this.country = country!;
+          console.log(this.country);
+
+          if (this.country.borders) {
+            const requets = this.country.borders.map(code => this._countriesService.searchCountryByAlphaCode(code));
+            forkJoin(requets)
+              .subscribe(bordersCountries => this.bordersCountries = bordersCountries);
+          }
+
+        },
+        error: err => {
+          console.log('error obtenido!', err);
           this._router.navigate(['/']);
         }
-        this.country = country!;
-        console.log(this.country);
-
       });
   }
 

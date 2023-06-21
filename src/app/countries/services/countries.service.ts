@@ -35,11 +35,10 @@ export class CountriesService {
       );
   }
 
-  searchCountryByAlphaCode(code: string): Observable<Country | null> {
+  searchCountryByAlphaCode(code: string): Observable<Country> {
     return this._http.get<Country[]>(`${this.apiCountryUrl}/alpha/${code}`)
       .pipe(
-        map(countries => countries[0]),
-        catchError(err => of(null))
+        map(countries => countries[0])
       );
   }
 

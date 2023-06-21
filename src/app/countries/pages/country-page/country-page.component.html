@@ -12,6 +12,11 @@
         <span class="badge bg-primary">{{ country?.translations!['jpn'].common }}</span>
         <span class="badge bg-primary">{{ country?.translations!['ita'].common }}</span>
       </div>
+      <h5 class="card-title border-bottom my-3">Países fronterizos</h5>
+      <div class="alert alert-info" *ngIf="existBordersCountries; else table">Buscando...</div>
+      <ng-template #table>
+        <app-country-table [countries]="bordersCountries"></app-country-table>
+      </ng-template>
     </div>
   </div>
 </ng-template>
