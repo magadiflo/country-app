@@ -37,7 +37,7 @@ export class CountriesService {
     return this._http.get<Country[]>(url)
       .pipe(
         catchError(err => of([])),
-        delay(2000),// para observar el loading que implementaremos
+        //delay(2000),// para observar el loading que implementaremos
       );
   }
 

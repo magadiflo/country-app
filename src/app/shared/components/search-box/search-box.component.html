@@ -1,4 +1,3 @@
 <div class="mb-3">
-  <input type="text" class="form-control" #searchBox (keyup.enter)="emitValue(searchBox.value)"
-    [placeholder]="placeholder">
+  <input type="text" class="form-control" #searchBox (keyup)="onKeyPress(searchBox.value)" [placeholder]="placeholder">
 </div>
