@@ -68,3 +68,8 @@ En este ejemplo, forkJoin combina los observables request1$, request2$ y request
 
 Si alguna de las peticiones falla, el observable resultante de forkJoin emitirá un error y se ejecutará el bloque de manejo de errores.
 
+--- 
+## Operador delay(...)
+
+Retrasa la emisión de elementos de la fuente Observable por un tiempo de espera determinado o hasta una Fecha determinada.
+El tiempo cambia cada elemento en una cantidad específica de milisegundos.
