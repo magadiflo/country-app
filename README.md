@@ -73,3 +73,15 @@ Si alguna de las peticiones falla, el observable resultante de forkJoin emitirá
 
 Retrasa la emisión de elementos de la fuente Observable por un tiempo de espera determinado o hasta una Fecha determinada.
 El tiempo cambia cada elemento en una cantidad específica de milisegundos.
+
+---
+
+## Limpieza de suscripciones
+
+Cuando creemos un **Subject, BehaviorSubject, etc...** donde nosotros mismos construimos el observable de manera manual y en donde nosotros
+realizamos un **subscribe**, es necesario, al destruir el componente, hacer un **unsubscribe()** de dicho subject, para evitar fuga de memoria, es decir, a pesar de que el componente ya no exista, la subscripción de dichos elementos seguirá existiendo, por lo que es necesario hacer el **unsubscribe()**.
+
+Existen unas excepciones, cuando usamos los métodos **get(...), post(...), put(...), delete(...), etc** del **HttpClient**, o cuando usamos el **ActivatedRoute** para recibir un parámetro por url, allí **nosotros no necesitamos hacer dicha limpieza**. Angular mismo se encargará de limpiarlo cuando el componente se destruya.
+
+**NOTA**
+> Este tema se habla en la **Sección 10: Mejoras y funcionalidades extra, clase 135. Limpieza de subscripciones**.
