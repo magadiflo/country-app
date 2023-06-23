@@ -3,12 +3,18 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { Country, Region } from '../interfaces/country.interface';
+import { CacheStore, Country, Region } from '../interfaces/country.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountriesService {
+
+  public cacheStore: CacheStore = {
+    byCapital: { term: '', countries: [] },
+    byCountry: { term: '', countries: [] },
+    byRegion: { region: undefined, countries: [] }
+  }
 
   private readonly apiCountryUrl: string = environment.API_COUNTRY_URL;
 
