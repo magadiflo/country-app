@@ -116,3 +116,5 @@ export interface PostalCode {
   format: string;
   regex:  string;
 }
+
+export type Region = 'Africa' | 'Americas' | 'Asia' | 'Europe' | 'Oceania';

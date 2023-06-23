@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, delay, map, of } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { Country } from '../interfaces/country.interface';
+import { Country, Region } from '../interfaces/country.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class CountriesService {
     return this._getCountriesRequest(`${this.apiCountryUrl}/name/${country}`);
   }
 
-  searchRegion(region: string): Observable<Country[]> {
+  searchRegion(region: Region): Observable<Country[]> {
     return this._getCountriesRequest(`${this.apiCountryUrl}/region/${region}`);
   }
 
