@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { CacheStore, Country, Region } from '../interfaces/country.interface';
@@ -21,15 +21,24 @@ export class CountriesService {
   constructor(private _http: HttpClient) { }
 
   searchCapital(capital: string): Observable<Country[]> {
-    return this._getCountriesRequest(`${this.apiCountryUrl}/capital/${capital}`);
+    return this._getCountriesRequest(`${this.apiCountryUrl}/capital/${capital}`)
+      .pipe(
+        tap(countries => this.cacheStore.byCapital = { term: capital, countries })
+      );
   }
 
   searchCountry(country: string): Observable<Country[]> {
-    return this._getCountriesRequest(`${this.apiCountryUrl}/name/${country}`);
+    return this._getCountriesRequest(`${this.apiCountryUrl}/name/${country}`)
+      .pipe(
+        tap(countries => this.cacheStore.byCountry = { term: country, countries })
+      );
   }
 
   searchRegion(region: Region): Observable<Country[]> {
-    return this._getCountriesRequest(`${this.apiCountryUrl}/region/${region}`);
+    return this._getCountriesRequest(`${this.apiCountryUrl}/region/${region}`)
+      .pipe(
+        tap(countries => this.cacheStore.byRegion = { region, countries })
+      );
   }
 
   searchCountryByAlphaCode(code: string): Observable<Country> {
