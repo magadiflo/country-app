@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, switchMap } from 'rxjs';
+import { Subscription, forkJoin, switchMap } from 'rxjs';
 
 import { CountriesService } from '../../services/countries.service';
 import { Country } from '../../interfaces/country.interface';
@@ -11,10 +11,11 @@ import { Country } from '../../interfaces/country.interface';
   styles: [
   ]
 })
-export class CountryPageComponent implements OnInit {
+export class CountryPageComponent implements OnInit, OnDestroy {
 
   public country?: Country;
   public bordersCountries: Country[] = [];
+  private _subscription$: Subscription = new Subscription();
 
   public get existBordersCountries(): boolean {
     return (this.country?.borders || false) && this.bordersCountries.length === 0;
@@ -37,7 +38,7 @@ export class CountryPageComponent implements OnInit {
 
           if (this.country.borders) {
             const requets = this.country.borders.map(code => this._countriesService.searchCountryByAlphaCode(code));
-            forkJoin(requets)
+            this._subscription$ = forkJoin(requets)
               .subscribe(bordersCountries => this.bordersCountries = bordersCountries);
           }
 
@@ -47,6 +48,10 @@ export class CountryPageComponent implements OnInit {
           this._router.navigate(['/']);
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this._subscription$.unsubscribe();
   }
 
 }
