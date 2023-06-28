@@ -12,6 +12,14 @@ Para agregar las clases solo cuando la URL coincida exactamente con el enlace, a
   Home page
 </a>
 ```
+[routerLinkActiveOptions]="{exact: true}", debemos agregarle esta opción ya que 
+inicialmente definimos en el app-routing.module.ts, a la ruta '' como pathMatch: full, es por eso que siempre
+se muestra seleccionada, a pesar de que se cambia de ruta. Y esto es, como se escribió en el
+el comentario de app-routing.module.ts (===> full) porque la ruta vacía ('') es prefijo
+de cualquier URL.
+
+Agregándole esta opción, le decimos que la ruta debe ser exactamente igual a la ruta '' para que use el routerLinkActive
+
 ---
 
 ## Countries Service - RestContries
@@ -85,3 +93,26 @@ Existen unas excepciones, cuando usamos los métodos **get(...), post(...), put(
 
 **NOTA**
 > Este tema se habla en la **Sección 10: Mejoras y funcionalidades extra, clase 135. Limpieza de subscripciones**.
+
+## pathMatch: 'full'
+Cuando trabajamos con los **Routes** definiendo las rutas de la aplicación, a menudo se usa el **pathMatch: 'full'** cuando el **path: ''**, pero ¿Qué es el pathMatch: 'full'?
+
+**El pathMatch**, es una estrategia que determina si una url pertenece o no a una ruta.  
+El atributo pathMatch, puede tomar 2 valores: **full o prefix**:
+
+- **full**, debe coincidir la ruta completa con la URL completa. **Se aplica
+       a la ruta vacía**, ya que la misma es un prefijo de cualquier URL y
+       puede provocar un bucle sin fin.
+- **prefix** (por defecto), significa que se elige la primera ruta donde la
+       ruta coincide con el inicio de la URL, pero luego el algoritmo de
+       coincidencia de ruta continúa buscando rutas secundarias coincidentes
+       donde coincide el resto de la URL.
+
+Con el **pathMatch 'full'** estamos indicándole a angular que solo entre a esa ruta si el path
+es exactamente ese, ni más ni menos. Si no es exactamente ese, no entra. ¿Por qué esto?
+Bueno, el comportamiento por defecto es pathMach: 'prefix', que este básicamente
+busca de izquierda a derecha, y cuando la ruta haga match con el path (aunque pueda no ser la ruta completa) entrará.
+También ten en cuenta cómo declaramos las rutas, y que estas se leen de arriba hacia abajo.
+Si tienes una ruta que siempre se cumpla sin el pathMatch: 'full', aunque abajo de esta
+tengas otra ruta declarada con un path más específico, no entrará a esa, porque en la primera que entra se queda, no busca más.
+De ahí que o uses pathMatch: 'full', o declares las rutas de la más específica a la menos.
